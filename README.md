@@ -75,15 +75,23 @@ All figures are from the production deployment or the repository as of late Sept
 
 ## Screenshots
 
-*Screenshots are being added. Placeholders below.*
+Production, English UI. The interface is fully bilingual (the 中 toggle at the top).
 
-| Mode picker | Cards streaming in | Filter ledger side panel |
-|---|---|---|
-| ![](assets/screenshots/01-mode-picker.png) | ![](assets/screenshots/02-cards-streaming.png) | ![](assets/screenshots/03-filter-ledger.png) |
+| Focus mode, batch complete. Mode picker, one-off intent box, quota bar. | Cards streaming in. The previous batch is painted while the new one arrives. |
+|---|---|
+| ![](assets/screenshots/01-feed-focus.jpg) | ![](assets/screenshots/02-cards-streaming.jpg) |
 
-| Viewing room | Settings and profile entries | Mobile |
-|---|---|---|
-| ![](assets/screenshots/04-viewing-room.png) | ![](assets/screenshots/05-settings.png) | ![](assets/screenshots/06-mobile.png) |
+| A multi-day viewing plan, stage view. | Drafting a plan with the assistant. |
+|---|---|
+| ![](assets/screenshots/03-viewing-plan.jpg) | ![](assets/screenshots/04-plan-assistant.jpg) |
+
+| Settings: excluded types per mode, source ratio, subscription import. | Profile entries, written by the user, reorderable, with per-entry share. |
+|---|---|
+| ![](assets/screenshots/05-settings.jpg) | ![](assets/screenshots/06-profile-entries.jpg) |
+
+| Favourites with folders. | Dislike manager, over-exposure ledger, data export and account deletion. |
+|---|---|
+| ![](assets/screenshots/07-favorites.jpg) | ![](assets/screenshots/08-account-data.jpg) |
 
 ## My role
 

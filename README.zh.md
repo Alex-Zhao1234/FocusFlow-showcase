@@ -75,15 +75,23 @@
 
 ## 截图
 
-*截图补充中,以下为占位。*
+生产环境,英文界面。界面完整支持中英双语(顶部「中」切换)。
 
-| 模式选择 | 卡片流式到达 | 过滤账本侧栏 |
-|---|---|---|
-| ![](assets/screenshots/01-mode-picker.png) | ![](assets/screenshots/02-cards-streaming.png) | ![](assets/screenshots/03-filter-ledger.png) |
+| 专注模式,本批完成。模式选择、临时意图框、配额条。 | 卡片流式到达中。新一批到达时先铺上上一批。 |
+|---|---|
+| ![](assets/screenshots/01-feed-focus.jpg) | ![](assets/screenshots/02-cards-streaming.jpg) |
 
-| 观看层 | 设置与画像条目 | 手机端 |
-|---|---|---|
-| ![](assets/screenshots/04-viewing-room.png) | ![](assets/screenshots/05-settings.png) | ![](assets/screenshots/06-mobile.png) |
+| 多日观看计划的阶段视图。 | 与助手对话起草计划。 |
+|---|---|
+| ![](assets/screenshots/03-viewing-plan.jpg) | ![](assets/screenshots/04-plan-assistant.jpg) |
+
+| 设置页:按模式排除类型、来源配比、订阅导入。 | 画像条目,用户自己写、可拖动重排、可设占比。 |
+|---|---|
+| ![](assets/screenshots/05-settings.jpg) | ![](assets/screenshots/06-profile-entries.jpg) |
+
+| 带文件夹的收藏夹。 | 不喜欢管理、过度曝光账本、数据导出与删号。 |
+|---|---|
+| ![](assets/screenshots/07-favorites.jpg) | ![](assets/screenshots/08-account-data.jpg) |
 
 ## 我的角色
 
