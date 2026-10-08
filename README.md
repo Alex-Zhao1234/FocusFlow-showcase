@@ -93,9 +93,9 @@ Production, English UI. The interface is fully bilingual (the 中 toggle at the 
 |---|---|
 | ![](assets/screenshots/07-favorites.jpg) | ![](assets/screenshots/08-account-data.jpg) |
 
-| Filter transparency, Chinese UI. Every dropped card is listed with the rule that dropped it, and can be appealed. | Mobile layout: the assistant drawer over the feed. |
+| Filter transparency, Chinese UI. Every dropped card is listed with the rule that dropped it, and can be appealed. | Mobile layout: single-column cards, per-card follow/trust/block, six-tab bottom bar. |
 |---|---|
-| ![](assets/screenshots/09-filter-transparency.jpg) | ![](assets/screenshots/10-mobile-assistant.jpg) |
+| ![](assets/screenshots/09-filter-transparency.jpg) | ![](assets/screenshots/10-mobile-feed.jpg) |
 
 ## My role
 

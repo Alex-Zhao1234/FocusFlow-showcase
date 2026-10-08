@@ -93,9 +93,9 @@
 |---|---|
 | ![](assets/screenshots/07-favorites.jpg) | ![](assets/screenshots/08-account-data.jpg) |
 
-| 过滤透明化,中文界面。每张被过滤的卡片都列出触发规则,可一键申诉。 | 手机端布局:助手抽屉盖在信息流之上。 |
+| 过滤透明化,中文界面。每张被过滤的卡片都列出触发规则,可一键申诉。 | 手机端布局:单列卡片、每卡关注/信任/拉黑、底栏六个入口。 |
 |---|---|
-| ![](assets/screenshots/09-filter-transparency.jpg) | ![](assets/screenshots/10-mobile-assistant.jpg) |
+| ![](assets/screenshots/09-filter-transparency.jpg) | ![](assets/screenshots/10-mobile-feed.jpg) |
 
 ## 我的角色
 
