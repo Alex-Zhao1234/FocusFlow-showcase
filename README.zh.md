@@ -93,6 +93,10 @@
 |---|---|
 | ![](assets/screenshots/07-favorites.jpg) | ![](assets/screenshots/08-account-data.jpg) |
 
+| 过滤透明化,中文界面。每张被过滤的卡片都列出触发规则,可一键申诉。 | 手机端布局:助手抽屉盖在信息流之上。 |
+|---|---|
+| ![](assets/screenshots/09-filter-transparency.jpg) | ![](assets/screenshots/10-mobile-assistant.jpg) |
+
 ## 我的角色
 
 独立项目:产品定义、架构、实现、评估、运维全部一人完成。2026 年作为硕士毕业论文项目构建(*FocusFlow: A Proactive, Context-Aware Video Recommendation AI Agent Built on Explicit User Intent*),提交后继续在生产环境运行和迭代。

@@ -93,6 +93,10 @@ Production, English UI. The interface is fully bilingual (the 中 toggle at the 
 |---|---|
 | ![](assets/screenshots/07-favorites.jpg) | ![](assets/screenshots/08-account-data.jpg) |
 
+| Filter transparency, Chinese UI. Every dropped card is listed with the rule that dropped it, and can be appealed. | Mobile layout: the assistant drawer over the feed. |
+|---|---|
+| ![](assets/screenshots/09-filter-transparency.jpg) | ![](assets/screenshots/10-mobile-assistant.jpg) |
+
 ## My role
 
 Solo project: product definition, architecture, implementation, evaluation and operations. Built as my master's dissertation project in 2026 (*FocusFlow: A Proactive, Context-Aware Video Recommendation AI Agent Built on Explicit User Intent*), then kept in production and iterated on after submission.
