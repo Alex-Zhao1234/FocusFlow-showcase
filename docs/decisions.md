@@ -1,5 +1,7 @@
 # Design decisions
 
+[中文](decisions.zh.md)
+
 Twelve decisions that shaped the product, in the order a reader is most likely to ask about them. Each one follows the same shape: the problem, the choice, what it cost, and what happened.
 
 ---
@@ -24,6 +26,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 
 **Result.** The conservation check is the first thing read whenever card counts look wrong. When output dropped after a performance change, the check showed the two were unrelated and pointed the investigation elsewhere. Transparency turned out to be a debugging tool as much as a product feature.
 
+**Code.** `conservation_check` in [`src/pipeline/orchestrator.py`](../src/pipeline/orchestrator.py).
+
 ### 3. One process, one SQLite file
 
 **Problem.** The complexity budget is finite. Where should it go?
@@ -33,6 +37,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 **Cost.** Vertical scaling only. Nightly jobs share the machine. Some things (vector search, full-text search) had to be done inside SQLite rather than with a dedicated service.
 
 **Result.** Months of iteration spent on filtering decisions rather than infrastructure. When hybrid retrieval was needed, `sqlite-vec` and FTS5 did the job inside the same file.
+
+**Code.** [`src/storage/retrieval.py`](../src/storage/retrieval.py) is the open part of the storage layer; [`src/storage/db.py`](../src/storage/db.py) is a facade over the private rest.
 
 ### 4. Every LLM call in one layer, every call with a coded fallback
 
@@ -44,6 +50,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 
 **Result.** Model outages and rate limits have never taken the site down. Degradation rate is a metric, not an incident.
 
+**Code.** [`src/agent/`](../src/agent/), e.g. `_degrade_quality` / `_degrade_fit` in [`src/agent/judges.py`](../src/agent/judges.py) and `fallback_queries` / `fallback_rank` in [`src/agent/discovery.py`](../src/agent/discovery.py).
+
 ### 5. A pure-code cost gate in front of the judges
 
 **Problem.** Running a model on every candidate is both slow and expensive, and most candidates do not need it.
@@ -53,6 +61,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 **Cost.** Two caches to invalidate correctly. The mode-fit cache is keyed by a fingerprint of prompt version, model, language and the user's profile text, so any of those changing invalidates it.
 
 **Result.** In a tracked production refresh, 62 of 102 candidates skipped the quality judge and the fit cache answered half of the fit rulings for free.
+
+**Code.** `triage` in [`src/pipeline/triage.py`](../src/pipeline/triage.py); the fit-cache key `fingerprint` in [`src/core/fit_cache.py`](../src/core/fit_cache.py); cache reads and writes in [`src/storage/retrieval.py`](../src/storage/retrieval.py).
 
 ### 6. Stream waves, paint the last result first
 
@@ -64,6 +74,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 
 **Result.** Measured first paint of 21 ms on a return visit. The ribbon became the product's signature.
 
+**Code.** `run` in [`src/pipeline/orchestrator.py`](../src/pipeline/orchestrator.py) and the SSE bridge in [`src/api/sse.py`](../src/api/sse.py).
+
 ### 7. Measure, then parallelise
 
 **Problem.** The full refresh took 164.9 s on real data. Guessing where the time went would have been easy and wrong.
@@ -73,6 +85,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 **Cost.** Async generators that yield from inside concurrent producers, which took one careful rewrite to get right.
 
 **Result.** 164.9 s → 58.3 s, a 65 % reduction, verified on the same data.
+
+**Code.** `_llm_semaphore` and `judge_quality` in [`src/agent/judges.py`](../src/agent/judges.py); `LLM_MAX_CONCURRENCY` and `FIRST_WAVE_MAX` in [`src/config.py`](../src/config.py).
 
 ### 8. Treat API quota as a product constraint, not an ops detail
 
@@ -84,6 +98,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 
 **Result.** The real bottleneck turned out to be the search bucket, not the headline quota. Finding that out required the ledgers.
 
+**Code.** `QuotaCounter` and `execute_plan` in [`src/sources/youtube.py`](../src/sources/youtube.py); `validate_plan` in [`src/agent/planner.py`](../src/agent/planner.py); `DAILY_QUOTA` and `DAILY_SEARCH_CALLS` in [`src/config.py`](../src/config.py). The ledger tables themselves are private.
+
 ### 9. Hybrid retrieval inside SQLite, with a before/after evaluation
 
 **Problem.** Keyword search alone misses relevant videos, especially across Chinese and English. A vector database would break decision 3.
@@ -93,6 +109,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 **Cost.** A nightly embedding job and a one-time backfill. One early finding: the default FTS tokenizer treats a run of Chinese characters as a single token, which is why `jieba` is there.
 
 **Result.** Each stage was evaluated against the pre-upgrade baseline before being left on. The evaluation also uncovered that the nightly job had silently stopped for a week, which is its own lesson about monitoring cron.
+
+**Code.** `hybrid_search` and `rerank_video_ids_by_entry_groups` in [`src/storage/retrieval.py`](../src/storage/retrieval.py); the embedding entry point in [`src/sources/embeddings.py`](../src/sources/embeddings.py); flags such as `E1_ENTRY_ISOLATION` in [`src/config.py`](../src/config.py).
 
 ### 10. No visible profiling panel
 
@@ -104,6 +122,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 
 **Result.** The red line was later narrowed, not removed: user-authored entries are visible and editable because the user wrote them; inferred state still is not.
 
+**Code.** Seat allocation from profile entries in [`src/pipeline/diversity.py`](../src/pipeline/diversity.py) and `_apply_profile_diversity` in [`src/pipeline/ranker.py`](../src/pipeline/ranker.py).
+
 ### 11. Cost-tiered models, with one failed experiment
 
 **Problem.** The best model for every call is the most expensive model for every call.
@@ -113,6 +133,8 @@ Twelve decisions that shaped the product, in the order a reader is most likely t
 **Cost.** Two model configurations to keep in sync.
 
 **Result.** The LLM bill scales with the review bucket, not with traffic.
+
+**Code.** `LLM_MODEL`, `LLM_MODEL_FALLBACK`, `CHAT_MODEL` and related settings in [`src/config.py`](../src/config.py); `should_escalate` in [`src/agent/judges.py`](../src/agent/judges.py).
 
 ### 12. Cut scope to ship, then iterate in small batches
 

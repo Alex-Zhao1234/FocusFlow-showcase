@@ -1,0 +1,10 @@
+pydantic>=2.7,<3
+pydantic-ai>=1.0
+google-api-python-client>=2.130
+isodate>=0.6
+pytest>=8.0
+
+# optional: hybrid retrieval and embeddings
+# sqlite-vec>=0.1.6
+# fastembed>=0.7
+# jieba>=0.42

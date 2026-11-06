@@ -2,9 +2,9 @@
 
 **先声明意图、再看内容的视频推荐系统。它是守门人,不是信息流。**
 
-线上:**https://focus-flow.uk** · [English README](README.md) · [架构说明](docs/architecture.md) · [关键决策](docs/decisions.md) · [精选代码](code-samples/) · [路线图](docs/roadmap.md)
+线上:**https://focus-flow.uk** · [English README](README.md) · [架构说明](docs/architecture.zh.md) · [关键决策](docs/decisions.zh.md) · [源码](src/) · [路线图](docs/roadmap.zh.md)
 
-> 这是一个私有代码库的公开展示仓。这里有架构、关键决策的来龙去脉、生产环境的数字,以及几段清理过的代码摘录。完整源码可应面试与评审需要提供,见[这里没有什么](#这里没有什么)。
+> 本仓库开源了 FocusFlow 的 **AI agent 核心**:LLM agent 层(规划器、判官、画像提取、助手、频道发现)、全部 prompt、编排器与纯代码管道段、agent 执行的检索工具层,以及向量+全文混合检索层,另附架构文档和关键决策的来龙去脉。Web 前端、HTTP API、鉴权、配额账本与存储层其余部分保持私有,见[开源范围](#开源范围)。
 
 ---
 
@@ -47,7 +47,7 @@
 
 ![一次真实生产刷新的过滤漏斗](assets/diagrams/filter-layers.jpg)
 
-更深的内容,包括编排器流程、智能体层和状态机,在 [docs/architecture.md](docs/architecture.md)。
+更深的内容,包括编排器流程、智能体层和状态机,在 [docs/architecture.md](docs/architecture.zh.md)。
 
 ## 数字
 
@@ -61,7 +61,7 @@
 | 提交 | 664 次,2026-06-10 至 2026-09-27,持续中 |
 | HTTP/SSE 端点 | 74 个 |
 | 数据库表 | 37 张,全部经由一个访问模块 |
-| 带版本的 prompt | 14 份,有沿革文件,基线由测试逐字节锁定 |
+| 带版本的 prompt | 15 份,全文见 `src/agent/prompts.py` |
 | 一次完整刷新墙钟时间 | 164.9 秒 → **58.3 秒**(降 65%),来自一轮以真机计时驱动的两段 LLM 并发优化 |
 | 回访首屏 | 21 毫秒(流水线启动前先从本地池铺上上次结果) |
 
@@ -103,19 +103,36 @@
 
 代码库使用 AI 结对编程工具、按「规格 → 计划 → 测试 → 评审」的工作流完成。每一批改动都从一份带编号决策的书面规格开始,带着测试落地,部署后对照生产日志验收。我把这套工作流本身视为交付物的一部分。
 
-## 这里没有什么
+## 开源范围
 
-这个仓库有意不包含:
+**开源部分(MIT,位于 `src/` 与 `tests/`):**
 
-- prompt 原文及其版本历史;
-- 排序权重、席位数、阈值、配额预算(在私有仓里全部集中于一个配置文件);
-- 频道池的构建方法和池本身;
+| 路径 | 内容 |
+|---|---|
+| `src/agent/` | 系统中所有 LLM 调用:S1 规划器、S5 质量判官、S6 模式匹配判官、画像提取、聊天助手、意图搜索扩展、负偏好解析、观看计划起草、频道发现(搜索词生成与候选频道裁定)。 |
+| `src/agent/prompts.py` | 全部 prompt 原文,集中在一个带版本的注册表里。 |
+| `src/pipeline/` | 编排器(S0–S7、波次调度、守恒校验)与纯代码管道段:预过滤、分诊、排序、多样性席位、来源配比、偏好、计划稳定性、预热。 |
+| `src/core/` | 各层共用的类型模型、模式匹配缓存键、LLM 用量计量、日志脱敏、成本估算。 |
+| `src/sources/` | 工具层:`base.py` 定义数据源适配器契约(每个规划器工具对应一个方法);`youtube.py` 在 YouTube Data API 上实现它,其中 `execute_plan` 带配额记账执行规划器的检索策略;`embeddings.py` 是嵌入模型唯一入口;`takeout.py` 导入 Google Takeout 订阅。 |
+| `src/storage/retrieval.py` | 混合检索:sqlite-vec 向量 KNN + SQLite FTS5(中文 jieba 预切)、按画像条目重排、S6 模式匹配缓存与本地候选库。 |
+| `src/api/sse.py` | 把编排器的异步批次转成 Server-Sent Events 流的桥接层。 |
+| `src/config.py` | 上述代码实际使用的常量:阈值、席位数、批大小、模型档位。 |
+| `tests/` | 精选的 agent 层与编排器离线测试(不依赖数据库、网络和 API key)。 |
+
+**不开源部分:**
+
+- `src/storage/db.py` 是**门面**:检索函数从 `retrieval.py` 真实导出,其余存储层(用户、鉴权、配额账本、偏好、过滤留痕等)只列签名桩,调用即抛 `NotImplementedError`,实现保持私有。
+- React 前端、FastAPI 路由、鉴权、限流与试用账号相关代码。
+- 驱动频道发现的离线建池作业(预算、轮转、调度)和池本身。
 - 部署与运维材料。
 
-[code-samples/](code-samples/) 里的代码是为阅读而删节、清理过的摘录,不能独立运行。
+因此代码**可读但不能端到端运行**。测试可以独立运行:
 
-**完整源码:** 可应面试官与评审需要提供。请通过简历上的邮箱联系,或在本仓开 issue。
+```bash
+pip install -r requirements.txt
+pytest            # 103 passed, 1 skipped
+```
 
 ## 许可
 
-本仓库的文字与图表采用 [CC BY-NC-ND 4.0](LICENSE) 许可。`code-samples/` 中的摘录仅供阅读,适用同一许可。FocusFlow 源码本身为专有代码,不在本许可范围内。
+`src/` 与 `tests/` 下的源码采用 [MIT 许可](LICENSE)。文字、图表与截图(README、`docs/`、`assets/`)采用 [CC BY-NC-ND 4.0](LICENSE-docs)。

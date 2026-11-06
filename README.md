@@ -2,9 +2,9 @@
 
 **An intent-first video recommender that acts as a gatekeeper, not a feed.**
 
-Live: **https://focus-flow.uk** · [中文版 README](README.zh.md) · [Architecture](docs/architecture.md) · [Design decisions](docs/decisions.md) · [Selected code](code-samples/) · [Roadmap](docs/roadmap.md)
+Live: **https://focus-flow.uk** · [中文版 README](README.zh.md) · [Architecture](docs/architecture.md) · [Design decisions](docs/decisions.md) · [Source](src/) · [Roadmap](docs/roadmap.md)
 
-> This is a public showcase of a private codebase. It contains the architecture, the reasoning behind key decisions, production numbers, and a handful of cleaned code excerpts. The full source is available on request for interviews and reviews. See [What is not here](#what-is-not-here).
+> This repository open-sources the **AI agent core** of FocusFlow: the LLM agent layer (planner, judges, profiler, assistant, channel discovery), all prompts, the orchestrator and the code-only pipeline stages, the retrieval tools the agent executes, and the hybrid vector + full-text retrieval layer, plus the architecture docs and the reasoning behind key decisions. The web frontend, the HTTP API, authentication, quota ledgers and the rest of the storage layer stay private. See [What is open and what is not](#what-is-open-and-what-is-not).
 
 ---
 
@@ -61,7 +61,7 @@ All figures are from the production deployment or the repository as of late Sept
 | Commits | 664 between 2026-06-10 and 2026-09-27, still active |
 | HTTP/SSE endpoints | 74 |
 | Database tables | 37, all behind one access module |
-| Versioned prompts | 14, with a changelog file and a test that locks the baseline byte-for-byte |
+| Versioned prompts | 15, full text in `src/agent/prompts.py` |
 | Full refresh wall time | 164.9 s → **58.3 s** (−65 %) after a measurement-driven concurrency pass on the two LLM stages |
 | First paint on return visit | 21 ms (previous result painted from a local pool before the pipeline starts) |
 
@@ -103,19 +103,36 @@ Solo project: product definition, architecture, implementation, evaluation and o
 
 The codebase was written with AI pair-programming tools under a spec → plan → test → review workflow. Every batch starts as a written spec with numbered decisions, lands with tests, and is checked against production logs after deployment. I consider that workflow part of the deliverable.
 
-## What is not here
+## What is open and what is not
 
-This repository deliberately omits:
+**Open (MIT, under `src/` and `tests/`):**
 
-- the prompt texts and their version history,
-- the ranking weights, seat counts, thresholds and quota budgets (all of which live in a single config file in the private repo),
-- the channel-pool building method and the pool itself,
-- deployment and operations material.
+| Path | What it is |
+|---|---|
+| `src/agent/` | Every LLM call in the system: S1 planner, S5 quality judge, S6 mode-fit judge, profile extractor, chat assistant, intent-search expansion, negative-preference parser, viewing-plan drafter, channel discovery (query generation and candidate judging). |
+| `src/agent/prompts.py` | All prompts, full text, in one versioned registry. |
+| `src/pipeline/` | The orchestrator (S0–S7, wave scheduling, conservation check) and the code-only stages: prefilter, triage, ranker, diversity seats, source mix, preferences, plan stability, prewarm. |
+| `src/core/` | Typed models shared by all layers, the mode-fit cache key, LLM usage metering, log redaction, cost estimation. |
+| `src/sources/` | The tool layer: `base.py` defines the source-adapter contract (one method per planner tool); `youtube.py` implements it on the YouTube Data API and contains `execute_plan`, which runs the planner's strategies with quota accounting; `embeddings.py` is the embedding-model entry point; `takeout.py` imports Google Takeout subscriptions. |
+| `src/storage/retrieval.py` | Hybrid retrieval: sqlite-vec KNN + SQLite FTS5 (jieba-segmented Chinese), profile-entry reranking, the S6 mode-fit cache and the local candidate library. |
+| `src/api/sse.py` | The bridge that turns the orchestrator's async batches into a Server-Sent Events stream. |
+| `src/config.py` | The real constants used by the code above: thresholds, seat counts, batch sizes, model tiers. |
+| `tests/` | A selection of offline tests for the agent layer and orchestrator (no database, no network, no API keys). |
 
-Code excerpts in [code-samples/](code-samples/) are abridged and cleaned for reading. They are not runnable on their own.
+**Not open:**
 
-**Full source access:** available to interviewers and reviewers on request. Email the address on my CV, or open an issue here.
+- `src/storage/db.py` is a **facade**: it re-exports the real retrieval functions and lists signature-only stubs (raising `NotImplementedError`) for the rest of the storage layer — users, auth, quota ledgers, preferences, filter records — which is private.
+- The React frontend, the FastAPI routes, authentication, rate limiting and trial-account code.
+- The offline channel-pool job that drives discovery (budgets, rotation, scheduling) and the pool itself.
+- Deployment and operations material.
+
+The code is therefore **readable but not runnable end-to-end**. The tests run on their own:
+
+```bash
+pip install -r requirements.txt
+pytest            # 103 passed, 1 skipped
+```
 
 ## License
 
-Text and diagrams in this repository are licensed under [CC BY-NC-ND 4.0](LICENSE). The excerpts in `code-samples/` are provided for reading only and carry the same license. The underlying FocusFlow source code is proprietary and not covered by this license.
+Source code under `src/` and `tests/` is licensed under the [MIT License](LICENSE). Text, diagrams and screenshots (README files, `docs/`, `assets/`) are licensed under [CC BY-NC-ND 4.0](LICENSE-docs).

@@ -1,5 +1,7 @@
 # Roadmap
 
+[中文](roadmap.zh.md)
+
 A short, honest account of where the project is and what comes next. Dates are 2026.
 
 ## Shipped
@@ -24,11 +26,11 @@ Small batches, roughly one per day. Each batch:
 
 - Before/after evaluation of the hybrid retrieval upgrade, stage by stage, now that the embedding job has been repaired and backfilled.
 - Observation windows on several September batches: diversity seats, channel cooldown after dislikes, impression-based soft demotion.
-- Screenshots and a short demo video for this showcase.
+- A short demo video for this showcase.
 
 ## Deliberately not planned
 
 - **An automated weekly feedback loop.** Designed, then cut to ship. A manual CLI review exists instead.
 - **Multi-tenant scale-out.** One process and one SQLite file are a choice, not a limitation hit so far.
 - **A visible user profile.** See decision 10 in [decisions.md](decisions.md).
-- **Open-sourcing the core.** The prompts, ranking rules and pool-building method stay private. This showcase is the public surface.
+- **Open-sourcing the rest.** The AI-agent core is open in [`src/`](../src/) under MIT: prompts, config values, orchestrator and pipeline, the YouTube adapter and plan executor, channel discovery and hybrid retrieval. The frontend, HTTP API, authentication, the rest of the storage layer, quota-ledger operations, the offline channel-pool job's scheduling and deployment stay private.
