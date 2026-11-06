@@ -1,6 +1,9 @@
-# FocusFlow 架构说明
+<p align="center">
+  <a href="architecture.md"><img alt="English" src="https://img.shields.io/badge/English-9ca3af?style=for-the-badge"></a>
+  <a href="architecture.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-2563eb?style=for-the-badge"></a>
+</p>
 
-[English](architecture.md)
+# FocusFlow 架构说明
 
 本文从「为什么做」讲到「每一段代码怎么做」,由浅入深:先是前期调研,再是核心范式和总体架构,然后逐个模块,最后落到每个阶段、每个机制的细节。文中描述的是**当前代码的实际行为**;凡有数字,都来自 [`src/config.py`](../src/config.py),并用反引号标出常量名,方便对照源码。
 

@@ -1,6 +1,9 @@
-# 路线图
+<p align="center">
+  <a href="roadmap.md"><img alt="English" src="https://img.shields.io/badge/English-9ca3af?style=for-the-badge"></a>
+  <a href="roadmap.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-2563eb?style=for-the-badge"></a>
+</p>
 
-[English](roadmap.md)
+# 路线图
 
 简短、如实地说明项目现在走到哪里、接下来做什么。日期均为 2026 年。
 

@@ -1,8 +1,13 @@
+<p align="center">
+  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-9ca3af?style=for-the-badge"></a>
+  <a href="README.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-2563eb?style=for-the-badge"></a>
+</p>
+
 # FocusFlow
 
 **先声明意图、再看内容的视频推荐系统。它是守门人,不是信息流。**
 
-线上:**https://focus-flow.uk** · [English README](README.md) · [架构说明](docs/architecture.zh.md) · [关键决策](docs/decisions.zh.md) · [源码](src/) · [路线图](docs/roadmap.zh.md)
+线上:**https://focus-flow.uk** · [架构说明](docs/architecture.zh.md) · [关键决策](docs/decisions.zh.md) · [源码](src/) · [路线图](docs/roadmap.zh.md)
 
 > 本仓库开源了 FocusFlow 的 **AI agent 核心**:LLM agent 层(规划器、判官、画像提取、助手、频道发现)、全部 prompt、编排器与纯代码管道段、agent 执行的检索工具层,以及向量+全文混合检索层,另附架构文档和关键决策的来龙去脉。Web 前端、HTTP API、鉴权、配额账本与存储层其余部分保持私有,见[开源范围](#开源范围)。
 

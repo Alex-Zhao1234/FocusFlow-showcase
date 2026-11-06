@@ -1,6 +1,9 @@
-# 设计决策
+<p align="center">
+  <a href="decisions.md"><img alt="English" src="https://img.shields.io/badge/English-9ca3af?style=for-the-badge"></a>
+  <a href="decisions.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-2563eb?style=for-the-badge"></a>
+</p>
 
-[English](decisions.md)
+# 设计决策
 
 塑造这个产品的十二个决策,按读者最可能问到的顺序排列。每一条都按同样的结构写:问题、选择、代价、结果。
 

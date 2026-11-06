@@ -1,6 +1,9 @@
-# Roadmap
+<p align="center">
+  <a href="roadmap.md"><img alt="English" src="https://img.shields.io/badge/English-2563eb?style=for-the-badge"></a>
+  <a href="roadmap.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-9ca3af?style=for-the-badge"></a>
+</p>
 
-[中文](roadmap.zh.md)
+# Roadmap
 
 A short, honest account of where the project is and what comes next. Dates are 2026.
 

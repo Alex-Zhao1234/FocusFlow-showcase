@@ -1,6 +1,9 @@
-# Design decisions
+<p align="center">
+  <a href="decisions.md"><img alt="English" src="https://img.shields.io/badge/English-2563eb?style=for-the-badge"></a>
+  <a href="decisions.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-9ca3af?style=for-the-badge"></a>
+</p>
 
-[中文](decisions.zh.md)
+# Design decisions
 
 Twelve decisions that shaped the product, in the order a reader is most likely to ask about them. Each one follows the same shape: the problem, the choice, what it cost, and what happened.
 

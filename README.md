@@ -1,8 +1,13 @@
+<p align="center">
+  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-2563eb?style=for-the-badge"></a>
+  <a href="README.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-9ca3af?style=for-the-badge"></a>
+</p>
+
 # FocusFlow
 
 **An intent-first video recommender that acts as a gatekeeper, not a feed.**
 
-Live: **https://focus-flow.uk** · [中文版 README](README.zh.md) · [Architecture](docs/architecture.md) · [Design decisions](docs/decisions.md) · [Source](src/) · [Roadmap](docs/roadmap.md)
+Live: **https://focus-flow.uk** · [Architecture](docs/architecture.md) · [Design decisions](docs/decisions.md) · [Source](src/) · [Roadmap](docs/roadmap.md)
 
 > This repository open-sources the **AI agent core** of FocusFlow: the LLM agent layer (planner, judges, profiler, assistant, channel discovery), all prompts, the orchestrator and the code-only pipeline stages, the retrieval tools the agent executes, and the hybrid vector + full-text retrieval layer, plus the architecture docs and the reasoning behind key decisions. The web frontend, the HTTP API, authentication, quota ledgers and the rest of the storage layer stay private. See [What is open and what is not](#what-is-open-and-what-is-not).
 

@@ -1,6 +1,9 @@
-# FocusFlow Architecture
+<p align="center">
+  <a href="architecture.md"><img alt="English" src="https://img.shields.io/badge/English-2563eb?style=for-the-badge"></a>
+  <a href="architecture.zh.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-9ca3af?style=for-the-badge"></a>
+</p>
 
-[中文](architecture.zh.md)
+# FocusFlow Architecture
 
 This document goes from "why build this" down to "what each piece of code does", one level of depth at a time: background research first, then the core paradigm and the overall architecture, then each module, and finally the rules and numbers of every stage and mechanism. It describes **what the current code actually does**. Every number comes from [`src/config.py`](../src/config.py), with the constant name in backticks so you can find it in the source.
 
